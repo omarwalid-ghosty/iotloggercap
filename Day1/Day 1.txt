@@ -1,0 +1,65 @@
+## Refresh package lists and upgrade the system:
+
++omar@omar-VirtualBox:~$ sudo apt update 
+
+Hit:1 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Hit:2 http://eg.archive.ubuntu.com/ubuntu jammy InRelease
+Hit:3 http://eg.archive.ubuntu.com/ubuntu jammy-updates InRelease
+Hit:4 http://eg.archive.ubuntu.com/ubuntu jammy-backports InRelease
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+1 package can be upgraded. Run 'apt list --upgradable' to see it.
+
++omar@omar-VirtualBox:~$ sudo apt upgrade -y
+
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+Calculating upgrade... Done
+The following packages were automatically installed and are no longer required:
+  linux-headers-6.8.0-40-generic linux-hwe-6.8-headers-6.8.0-40
+  linux-hwe-6.8-tools-6.8.0-40 linux-image-6.8.0-40-generic
+  linux-modules-6.8.0-40-generic linux-modules-extra-6.8.0-40-generic
+  linux-tools-6.8.0-40-generic
+Use 'sudo apt autoremove' to remove them.
+The following packages have been kept back:
+  libpam-sss
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
+
+##Verfy system details:
+#Kernal version:
+
++omar@omar-VirtualBox:~$ uname
+Linux
++omar@omar-VirtualBox:~$ uname -a 
+Linux omar-VirtualBox 6.8.0-78-generic #78~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Wed Aug 13 14:32:06 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
++omar@omar-VirtualBox:~$ uname -r
+6.8.0-78-generic
+
+#Name
+omar@omar-VirtualBox:~$ whoami
+omar
+
+#Date
+omar@omar-VirtualBox:~$ date
+30 أغس, 2025 EEST 08:23:27 م
+
+##Creating the directory:
+
++omar@omar-VirtualBox:~$ cd ~
++omar@omar-VirtualBox:~$ mkdir /home/omar/iot_logger
++omar@omar-VirtualBox:~$ cd iot_logger
++omar@omar-VirtualBox:~/iot_logger$ mkdir logs scripts data
++omar@omar-VirtualBox:~/iot_logger$ ls
+
+data  logs  scripts
+
++omar@omar-VirtualBox:~/iot_logger$ cd ~
+
+omar@omar-VirtualBox:~$ ls
+
+demo1    Documents  gitdemo     Music  Pictures  snap       Videos
+Desktop  Downloads  iot_logger  my     Public    Templates
+
+omar@omar-VirtualBox:~$ 

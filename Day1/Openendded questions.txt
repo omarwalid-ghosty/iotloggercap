@@ -1,0 +1,20 @@
+Q1: 
+Hardware: It consists of the physical components of the system such as processor, storage, sensors, etc
+Kernel: It is the core of the opreating system acting as a bridge between the hardware and the software in addition to managing the hardware resources
+### System calls: interface between the kernel and the user programs
+shell: the interface that allow the user to use the device in form of command interpreter that translates the commands to system calls
+user space: Applications and programs that are running outside the kernel space
+
+Q2: 
+/: root of the file system
+/bin: essential user binaries as ls, cp 
+/sbin: system binaries or admin commands
+/usr: user programs and libraries
+/etc: configuration files
+/var: variable data
+
+Q3:
+# Linux treats everything as a file to simplify access as all resources wil use the same read and write interface wich provides uniform flow and flexibility 
+# Program vs process: 
+program: is a set of instrucitons writen as a code stored in on the computer disk and mainly in an executable file format
+process: is an active instance of a program that is being executed and loaded to the memory and has its own PID
