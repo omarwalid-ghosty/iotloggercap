@@ -1,0 +1,24 @@
+#Q1:
+
+    Regular file: text, binary
+    Directory: folder of files
+    Symbolic link: shortcut pointer to another file 
+    Hard link:  another name for the same file inode 
+    Device file: hardware interfaces 
+    Socket: inter-process communication
+    Pipe: temporary communication channel between processes
+
+Check type with:
+ls -l
+file filename
+
+#Q2:
+
+    Hard link: points directly to file’s inode. File exists even if original is deleted.
+
+    Symbolic link: points to path. If the original is deleted, symlink breaks.
+
+
+#Q3:
+    rmdir: removes only empty directories
+    rm -r: recursively deletes directory with all its files/subdirectories
