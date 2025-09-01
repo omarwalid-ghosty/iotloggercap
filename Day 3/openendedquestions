@@ -1,0 +1,25 @@
+Q1:
+
+for files:
+	r -> read file contents 
+	w -> modify or write on file contents 
+	x -> execute file as a program or script
+for directories:
+	r -> list directory contents 
+	w -> modify in the content of the directory eihter by creating, deleting or renaming
+	x -> enter the directory and access its files
+Example:
+	A directory with rwxr-x--- -> owner can do everything, group can list or enter but not modify, others have no access.
+	
+Q2:
+
+permisions use numbers r = 4 , w = 2 , x = 1 and combining them gives permision for each class
+for example: 770 = rwxrwx---
+the umask set the permissions by subtracting form the system's default 
+for example default: 770 and umask: 020 --> new file : 050
+
+Q3:
+
+the root user has unrestricted access to the system with special superuser id
+the normal user has limited access and cannot perform administrative tasks
+

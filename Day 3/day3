@@ -1,0 +1,68 @@
+##Create a new group iot_team and add your user to it.
+
+omar@omar-VirtualBox:~$ sudo groupadd iot_team
+omar@omar-VirtualBox:~$ sudo gpasswd -a omar iot_team
+Adding user omar to group iot_team
+
+##Create a new developer user, add it to the group.
+
+omar@omar-VirtualBox:~$ sudo adduser developer
+Adding user `developer' ...
+Adding new group `developer' (1002) ...
+Adding new user `developer' (1001) with group `developer' ...
+The home directory `/home/developer' already exists.  Not copying from `/etc/skel'.
+adduser: Warning: The home directory `/home/developer' does not belong to the user you are currently creating.
+New password: 
+BAD PASSWORD: The password is shorter than 8 characters
+Retype new password: 
+passwd: password updated successfully
+Changing the user information for developer
+Enter the new value, or press ENTER for the default
+	Full Name []: developer
+	Room Number []: 
+	Work Phone []: 
+	Home Phone []: 
+	Other []: 
+Is the information correct? [Y/n] 
+omar@omar-VirtualBox:~$ sudo gpasswd -a developer iot_team
+Adding user developer to group iot_team
+
+##Change ownership of iot_logger to the developer + group.
+
+omar@omar-VirtualBox:~$ sudo chown -R developer:iot_team ~/iot_logger
+
+##Set permissions: group can read/write logs, others blocked.
+
+omar@omar-VirtualBox:~$ sudo chmod -R 760 ~/iot_logger
+omar@omar-VirtualBox:~$ ls -ld ~/iot_logger
+drwxrw---- 6 developer iot_team 4096 أغس 30 20:35 /home/omar/iot_logger
+
+##Test access as new user, then remove test user.
+
+omar@omar-VirtualBox:~$ sudo adduser test
+Adding user `test' ...
+Adding new group `test' (1003) ...
+Adding new user `test' (1002) with group `test' ...
+Creating home directory `/home/test' ...
+Copying files from `/etc/skel' ...
+New password: 
+BAD PASSWORD: The password is shorter than 8 characters
+Retype new password: 
+passwd: password updated successfully
+Changing the user information for test
+Enter the new value, or press ENTER for the default
+	Full Name []: test
+	Room Number []: 
+	Work Phone []: 
+	Home Phone []: 
+	Other []: 
+Is the information correct? [Y/n] 
+omar@omar-VirtualBox:~$ su test
+Password: 
+test@omar-VirtualBox:/home/omar$ ls -l /opt/iot_logger
+ls: cannot open directory '/opt/iot_logger': Permission denied
+
+omar@omar-VirtualBox:~$ sudo userdel test
+[sudo] password for omar: 
+omar@omar-VirtualBox:~$ 
+
