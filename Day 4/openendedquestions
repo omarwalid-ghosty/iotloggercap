@@ -1,0 +1,23 @@
+Q1:
+
+- Bash reads the line and splits it into tokens using whitespace.
+- perform expansions (~, variable, command, etc.)
+- syntax check
+- bash checks for builtin or functions
+- forks a child process
+- execute the program 
+ 
+ Q2: 
+ 
+ Daemon: long running in the background , no terminal as cron
+ zombie: finished child prcoess but the parent didn't read its exit status, shown as <defunct>
+ orphan: still running child process with died parent , reparented to init (PID 1) and still runs normally
+ 
+ Q3:
+ 
+ -it is used to isolate the processes and allows sharing data, coordinate, and signal events
+ mechanisms and examples:
+ 
+-Shared memory: fast data sharing (databases)
+-Message queues: queued communication between processes
+-Pipes: ls | grep txt
