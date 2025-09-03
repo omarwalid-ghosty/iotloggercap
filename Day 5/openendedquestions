@@ -1,0 +1,63 @@
+Q1:
+ 
+ single quotes: carries text only, with no expansions of variables or commands 
+ double quotes: carries the text but allows the expansion of variables and commands
+ 
+ Q2:
+ 
+ -f: returns true if the file exists and a regular file 
+ -d: returns true if the path exists and a directory
+ 
+ Q3:
+ 
+stdout: standard output: file descriptor 1 which gives normal program output
+stderr:standard error: file descriptor 2 which shows error messages
+
+Redirection: 
+> overwrites : create new or clear the file before writing 
+>> append : add the output to the end of the file 
+&> : redirect both stdout and stderr
+
+Confirm with File Descriptors
+
+- finding the pid of the process
+- checking the file descriptors 
+
+Q4:
+example:
+╭─omar@omar-VirtualBox ~  
+╰─➤  for i in 1 2 3 4 5; do
+  echo "no. $i"      
+done
+no. 1
+no. 2
+no. 3
+no. 4
+no. 5
+
+calculator:
+
+╭─omar@omar-VirtualBox ~  
+╰─➤  echo "1st no.: "           
+read num1
+
+echo "2nd no.: "            
+read num2
+
+echo "+ or -"    
+read op
+
+if [ "$op" = "+" ]; then
+  echo "Result: $((num1 + num2))"
+elif [ "$op" = "-" ]; then
+  echo "Result: $((num1 - num2))"
+else
+  echo "Invalid operation"
+fi
+1st no.: 
+8
+2nd no.: 
+4
++ or -
+- 
+Result: 4
