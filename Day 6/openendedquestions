@@ -1,0 +1,39 @@
+Q1:
+
+Cron is a scheduler in Linux for automating
+commands/scripts having time fields: minute, hour, day of month,
+month, day of week.
+	Example:
+*/5 * * * * = every 5 minutes
+
+Q2:
+
+Prevents log files from growing without stop
+Saves disk space
+Automates compression and deletion of old logs
+
+	Example:
+/home/omar/iot_logger/logs/temperature.log {
+    su omar omar
+    size 1M
+    rotate 5
+    compress
+    missingok
+    notifempty
+    copytruncate
+}
+
+Q3:
+
+A Virtual Machine: acts like a full computer. It has its own OS but is slower and uses more resources.
+A Container : only shares the host’s Linux kernel. It is lighter and faster.
+Containers need the same type of kernel as the host. For example, if the host is Linux, the containers must also run Linux (but can be different versions like Ubuntu, Debian, or Alpine).
+
+Q4:
+
+Combining redirection + process monitoring: checking sensor logs and PIDs.
+Combining users + permissions: securing project files.
+Combining cron + logrotate : automation.
+
+In real IoT systems: ensures devices can run
+continuously, store data safely, recover from errors, and stay efficient in production

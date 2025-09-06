@@ -1,0 +1,167 @@
+### Configure log rotation for temperature.log (rotate at 1 MB, compress).
+
+╭─omar@omar-VirtualBox ~  
+╰─➤  sudo nano /etc/logrotate.d/iot_logger   
+==========>> 	/home/omar/iot_logger/logs/temperature.log {
+		    su omar omar
+		    size 10K
+		    rotate 5
+		    compress
+		    missingok
+		    notifempty
+		    copytruncate
+			}
+### Test by forcing a rotation.
+
+╭─omar@omar-VirtualBox ~  
+╰─➤  sudo logrotate -f /etc/logrotate.d/iot_logger -v
+
+reading config file /etc/logrotate.d/iot_logger
+Reading state from file: /var/lib/logrotate/status
+Allocating hash table for state file, size 64 entries
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+
+Handling 1 logs
+
+rotating pattern: /home/omar/iot_logger/logs/temperature.log  forced from command line (5 rotations)
+empty log files are not rotated, old logs are removed
+switching euid from 0 to 1000 and egid from 0 to 1000 (pid 5277)
+considering log /home/omar/iot_logger/logs/temperature.log
+  Now: 2025-09-06 10:55
+  Last rotated at 2025-09-06 10:49
+  log needs rotating
+rotating log /home/omar/iot_logger/logs/temperature.log, log->rotateCount is 5
+dateext suffix '-20250906'
+glob pattern '-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'
+renaming /home/omar/iot_logger/logs/temperature.log.5.gz to /home/omar/iot_logger/logs/temperature.log.6.gz (rotatecount 5, logstart 1, i 5), 
+old log /home/omar/iot_logger/logs/temperature.log.5.gz does not exist
+renaming /home/omar/iot_logger/logs/temperature.log.4.gz to /home/omar/iot_logger/logs/temperature.log.5.gz (rotatecount 5, logstart 1, i 4), 
+old log /home/omar/iot_logger/logs/temperature.log.4.gz does not exist
+renaming /home/omar/iot_logger/logs/temperature.log.3.gz to /home/omar/iot_logger/logs/temperature.log.4.gz (rotatecount 5, logstart 1, i 3), 
+old log /home/omar/iot_logger/logs/temperature.log.3.gz does not exist
+renaming /home/omar/iot_logger/logs/temperature.log.2.gz to /home/omar/iot_logger/logs/temperature.log.3.gz (rotatecount 5, logstart 1, i 2), 
+old log /home/omar/iot_logger/logs/temperature.log.2.gz does not exist
+renaming /home/omar/iot_logger/logs/temperature.log.1.gz to /home/omar/iot_logger/logs/temperature.log.2.gz (rotatecount 5, logstart 1, i 1), 
+renaming /home/omar/iot_logger/logs/temperature.log.0.gz to /home/omar/iot_logger/logs/temperature.log.1.gz (rotatecount 5, logstart 1, i 0), 
+old log /home/omar/iot_logger/logs/temperature.log.0.gz does not exist
+log /home/omar/iot_logger/logs/temperature.log.6.gz doesn't exist -- won't try to dispose of it
+copying /home/omar/iot_logger/logs/temperature.log to /home/omar/iot_logger/logs/temperature.log.1
+truncating /home/omar/iot_logger/logs/temperature.log
+compressing log with: /bin/gzip
+switching uid to 1000 and gid to 1000 permanently (pid 5278)
+switching euid from 1000 to 0 and egid from 1000 to 0 (pid 5277)
+╭─omar@omar-VirtualBox ~  
+╰─➤  ls -lh ~/iot_logger/logs/                       
+
+total 116K
+-rw-rw-r-- 1 omar omar  19K سبت  2 20:20 sensor_poll.log
+-rw-rw-r-- 1 omar omar  22K سبت  2 19:53 sys_usage.log
+-rwxrwx--- 1 omar omar    0 سبت  6 10:55 temperature.log
+-rwxrwx--- 1 omar omar  11K سبت  6 10:55 temperature.log.1.gz
+-rwxrwx--- 1 omar omar  41K سبت  6 10:49 temperature.log.2.gz
+-rw-rw-r-- 1 omar omar 8.0K سبت  3 21:26 temp_only.log
+-rw-rw-r-- 1 omar omar   62 سبت  2 19:54 uptime.log
+
+### Schedule the Python script to run every 5 minutes with cron.
+
+╭─omar@omar-VirtualBox ~  
+╰─➤  crontab -e       
+==========>> */5 * * * * python3 /home/omar/iot_logger/scripts/sensor_script.py >> /home/omar/iot_logger/logs/temperature.log 2>&1
+
+crontab: installing new crontab
+
+### Verify log growth over time:
+
+╭─omar@omar-VirtualBox ~  
+╰─➤  tail -f ~/iot_logger/logs/temperature.log       
+2025-09-06 11:00:08 - GenericSensor: 27.96
+2025-09-06 11:00:11 - GenericSensor: 25.1
+2025-09-06 11:00:14 - GenericSensor: 27.36
+2025-09-06 11:00:17 - GenericSensor: 28.52
+2025-09-06 11:00:20 - GenericSensor: 23.34
+2025-09-06 11:00:23 - GenericSensor: 29.94
+2025-09-06 11:00:26 - GenericSensor: 22.97
+2025-09-06 11:00:29 - GenericSensor: 20.86
+2025-09-06 11:00:32 - GenericSensor: 28.04
+2025-09-06 11:00:35 - GenericSensor: 20.03
+
+### Compress old logs into .tar.gz in data/.
+
+╭─omar@omar-VirtualBox ~  
+╰─➤  tar -czvf ~/iot_logger/data/old_logs_$(date +%F).tar.gz ~/iot_logger/logs/*.gz
+tar: Removing leading `/' from member names
+/home/omar/iot_logger/logs/temperature.log.1.gz
+tar: Removing leading `/' from hard link targets
+/home/omar/iot_logger/logs/temperature.log.2.gz
+
+╭─omar@omar-VirtualBox ~  
+╰─➤  ls -lh ~/iot_logger/data/
+total 140K
+-rw-rw-r-- 1 omar omar  51K سبت  6 11:05 old_logs_2025-09-06.tar.gz
+-rw-rw-r-- 1 omar omar  19K سبت  3 21:30 sensor_poll.log
+-rwxrwx--- 1 omar omar  13K أغس 31 11:28 services
+-rw-rw-r-- 1 omar omar  22K سبت  3 21:30 sys_usage.log
+-rwxrwx--- 1 omar omar 8.0K سبت  3 21:30 temperature_hard.log
+-rwxrwx--- 1 omar omar 8.0K سبت  3 21:30 temperature.log
+-rw-rw-r-- 1 omar omar 8.0K سبت  3 21:30 temp_only.log
+-rw-rw-r-- 1 omar omar   62 سبت  3 21:30 uptime.log
+╭─omar@omar-VirtualBox ~  
+╰─➤  ls -lh ~/iot_logger/data/
+total 140K
+-rw-rw-r-- 1 omar omar  51K سبت  6 11:05 old_logs_2025-09-06.tar.gz
+-rw-rw-r-- 1 omar omar  19K سبت  3 21:30 sensor_poll.log
+-rwxrwx--- 1 omar omar  13K أغس 31 11:28 services
+-rw-rw-r-- 1 omar omar  22K سبت  3 21:30 sys_usage.log
+-rwxrwx--- 1 omar omar 8.0K سبت  3 21:30 temperature_hard.log
+-rwxrwx--- 1 omar omar 8.0K سبت  3 21:30 temperature.log
+-rw-rw-r-- 1 omar omar 8.0K سبت  3 21:30 temp_only.log
+-rw-rw-r-- 1 omar omar   62 سبت  3 21:30 uptime.log
+
+### Simulate sending archives
+
+╭─omar@omar-VirtualBox ~  
+╰─➤  mkdir -p /home/omar/server/
+╭─omar@omar-VirtualBox ~  
+╰─➤  scp ~/iot_logger/data/*.tar.gz /home/omar/server/
+
+╭─omar@omar-VirtualBox ~  
+╰─➤  ls -lh /home/omar/server/                    
+total 52K
+-rw-rw-r-- 1 omar omar 51K سبت  6 11:10 old_logs_2025-09-06.tar.gz
+╭─omar@omar-VirtualBox ~  
+╰─➤  
